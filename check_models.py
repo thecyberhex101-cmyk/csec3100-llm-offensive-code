@@ -44,7 +44,7 @@ all_ready = True
 for model_name, (key, typ, role, size) in MODELS.items():
     found = any(model_name in m for m in installed)
     if not found: all_ready = False
-    status = col("✓ installed", GREEN) if found else col("✗ missing", RED)
+    status = col(" installed", GREEN) if found else col("✗ missing", RED)
     pull   = "" if found else col(f"  → ollama pull {model_name}", DIM)
     print(f"  {model_name:<35} {key:<12} {typ:<20} {role:<24} {size:<10} {status}")
     if pull: print(f"  {'':35} {pull}")
