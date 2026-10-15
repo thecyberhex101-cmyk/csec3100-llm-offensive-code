@@ -14,7 +14,7 @@ MODELS = {
     "codellama:7b-instruct"      : ("codellama",  "Type 2 Code",     "Baseline",            "~3.8 GB"),
     "qwen2.5-coder:7b-instruct"  : ("qwen",       "Type 2 Code",     "DeepHat base",        "~4.7 GB"),
     "deephat"                    : ("deephat",     "Type 3 Security", "Controlled ablation", "~4.7 GB"),
-    "llama3.1:8b-instruct"       : ("llama3",      "Type 1 General",  "Optional anchor",     "~4.9 GB"),
+    "llama3.1:8b"       : ("llama3",      "Type 1 General",  "Optional anchor",     "~4.9 GB"),
 }
 
 print(f"\n{col('CSEC3100 — Model Status Check', BOLD, CYAN)}\n")
