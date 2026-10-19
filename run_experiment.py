@@ -26,7 +26,7 @@ if sys.platform == "win32":
 # ── Configuration ─────────────────────────────────────────────────────────────
 OLLAMA_URL    = "http://localhost:11434"
 TEMPERATURE   = 0.1
-RUNS_PER_CELL = 10
+RUNS_PER_CELL = 15
 MAX_TOKENS    = 1500
 MAX_RETRIES   = 3
 TERM_WIDTH    = min(shutil.get_terminal_size((80, 24)).columns, 100)
