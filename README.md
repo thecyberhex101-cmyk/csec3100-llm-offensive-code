@@ -9,7 +9,7 @@
 ![Samples](https://img.shields.io/badge/Samples-11%20Complete-brightgreen)
  
 **Module:** CSEC3100 Final Year Project  
-**Student:** Mandip Rai | P2817533  
+**Student:** Mandip Rai
 **University:** De Montfort University  
 **Programme:** BSc Cyber Security, Year 3  
 **Academic Year:** 2026-27  
@@ -19,17 +19,17 @@
  
 ## Research Question
  
-Do LLMs fail at hardware-adjacent offensive code at the level of instruction recognition, or physical consequence reasoning — and is that failure representational (fixable by prompting) or architectural (fundamental)?
+Do LLMs fail at hardware-adjacent offensive code at the level of instruction recognition, or physical consequence reasoning and is that failure representational (fixable by prompting) or architectural (fundamental)?
  
 ---
  
 ## Project Summary
  
-This project tests whether local LLMs can reason about hardware attack primitives in C source code — not just name them, but explain the physical mechanisms that make them work.
+This project tests whether local LLMs can reason about hardware attack primitives in C source code not just name them, but explain the physical mechanisms that make them work.
  
 Four models spanning three specialisation types (general-purpose, code-specific, security-specific) are tested against eleven attack samples across three prompt conditions: no context (Condition A), hardware physics description without the attack name (Condition B), and the attack name without physics (Condition C). The primary metric is the **RCDI (Recognition-Consequence Dissociation Index)**, which quantifies the gap between a model recognising an attack technique and understanding why it works at the hardware level. A positive RCDI means the model can name the attack but cannot explain the physical mechanism behind it.
  
-The controlled ablation between Qwen2.5-Coder and DeepHat — identical architecture, same tokeniser, one variable changed (security fine-tuning) — isolates the effect of security-specific training data from architectural capability.
+The controlled ablation between Qwen2.5-Coder and DeepHat identical architecture, same tokeniser, one variable changed (security fine-tuning)  isolates the effect of security-specific training data from architectural capability.
  
 **600 responses collected 15 October 2026. Zero missing runs. Formal scoring January 2027 after OSF pre-registration.**
  
@@ -50,21 +50,21 @@ The controlled ablation between Qwen2.5-Coder and DeepHat — identical architec
  
 | Model | Size | Type | Role |
 |-------|------|------|------|
-| `llama3.1:8b` | 8B | Type 1 — General-purpose | Anchor baseline |
-| `codellama:7b-instruct` | 7B | Type 2 — Code-specific | Independent baseline |
-| `qwen2.5-coder:7b-instruct` | 7B | Type 2 — Code-specific | Controlled ablation BASE |
-| `deephat:latest` | 7B | Type 3 — Security-specific | Controlled ablation |
+| `llama3.1:8b` | 8B | Type 1 : General-purpose | Anchor baseline |
+| `codellama:7b-instruct` | 7B | Type 2 : Code-specific | Independent baseline |
+| `qwen2.5-coder:7b-instruct` | 7B | Type 2 : Code-specific | Controlled ablation BASE |
+| `deephat:latest` | 7B | Type 3 : Security-specific | Controlled ablation |
  
-**Controlled ablation:** DeepHat V1 7B is a verified fine-tune of Qwen2.5-Coder 7B — identical architecture (Qwen2ForCausalLM), 7.61B parameters, and tokeniser vocabulary of 152,064 tokens. Confirmed by `verify.py` comparing config.json files (5/5 parameters match). The only variable is security domain fine-tuning.
+**Controlled ablation:** DeepHat V1 7B is a verified fine-tune of Qwen2.5-Coder 7B identical architecture (Qwen2ForCausalLM), 7.61B parameters, and tokeniser vocabulary of 152,064 tokens. Confirmed by `verify.py` comparing config.json files (5/5 parameters match). The only variable is security domain fine-tuning.
  
 ### Extended models (planned)
  
 | Model | Type | Purpose |
 |-------|------|---------|
-| Foundation-Sec-8B | Security fine-tune of LLaMA 3.1 | Second controlled ablation — LLaMA architecture |
-| LLaMA 3.1 13B | General — scale check | Does RCDI persist at 13B? |
-| Qwen2.5-Coder 14B | Code — scale check | Does RCDI persist at 14B? |
-| GLM-5.2 (744B) | Frontier reference | n=5 only — does scale alone eliminate the gap? |
+| Foundation-Sec-8B | Security fine-tune of LLaMA 3.1 | Second controlled ablation  LLaMA architecture |
+| LLaMA 3.1 13B | General : scale check | Does RCDI persist at 13B? |
+| Qwen2.5-Coder 14B | Code : scale check | Does RCDI persist at 14B? |
+| GLM-5.2 (744B) | Frontier reference | n=5 only does scale alone eliminate the gap? |
  
 ---
  
@@ -72,18 +72,18 @@ The controlled ablation between Qwen2.5-Coder and DeepHat — identical architec
  
 Eleven attack samples across four attack families. All samples are based on published academic techniques. All samples verified and run inside an isolated virtual machine with no network connection.
  
-### Rowhammer (DRAM bit-flip attack) — based on Kim et al. 2014
+### Rowhammer (DRAM bit-flip attack) based on Kim et al. 2014
  
 | Sample | Transformation | Status |
 |--------|---------------|--------|
 | `L0_rowhammer_canonical.c` | Full comments, semantic identifiers | ✅ Complete |
 | `L1_rowhammer_comments_stripped.c` | Comments removed | ✅ Complete |
 | `L2_rowhammer_identifiers.c` | Identifiers renamed to `func_a/b`, `PARAM_A/B` | ✅ Complete |
-| `L3_rowhammer_control_flow.c` | Control flow restructured — same operations, different structure | ✅ Complete |
+| `L3_rowhammer_control_flow.c` | Control flow restructured same operations, different structure | ✅ Complete |
 | `L4_rowhammer_substituted.c` | `clflush` → `clflushopt`, `rdtscp` → `rdtsc` | ✅ Complete |
-| `L5_rowhammer_dead_code.c` | Dead code injected — irrelevant operations added as noise | ✅ Complete |
+| `L5_rowhammer_dead_code.c` | Dead code injected irrelevant operations added as noise | ✅ Complete |
  
-### Flush+Reload (cache timing side-channel) — based on Yarom & Falkner 2014
+### Flush+Reload (cache timing side-channel) based on Yarom & Falkner 2014
  
 | Sample | Transformation | Status |
 |--------|---------------|--------|
@@ -95,10 +95,10 @@ Eleven attack samples across four attack families. All samples are based on publ
  
 | Sample | Technical Description | Verification |
 |--------|----------------------|-------------|
-| `KM-1` — Linux kernel module | Hooks `getdents64` via syscall table modification. Uses kprobe trampoline to find `kallsyms_lookup_name` (unexported after kernel 5.7). Clears CR0 bit 16 to disable write protection. Uses `memmove` to physically remove `linux_dirent64` entries. | Files disappear from directory listings after loading. Confirmed Ubuntu 22.04 kernel 5.15.0-198-generic. ✅ Complete |
-| `SC-1` — Direct syscall stager | Bypasses C standard library entirely. Uses `r10` instead of `rcx` for fourth argument (syscall clobbers `rcx`). Compiled `-nostdlib -static`. | Exit code 42 confirmed via `echo $?` and `strace` showing raw syscall sequence. ✅ Complete |
+| `KM-1` Linux kernel module | Hooks `getdents64` via syscall table modification. Uses kprobe trampoline to find `kallsyms_lookup_name` (unexported after kernel 5.7). Clears CR0 bit 16 to disable write protection. Uses `memmove` to physically remove `linux_dirent64` entries. | Files disappear from directory listings after loading. Confirmed Ubuntu 22.04 kernel 5.15.0-198-generic. ✅ Complete |
+| `SC-1` Direct syscall stager | Bypasses C standard library entirely. Uses `r10` instead of `rcx` for fourth argument (syscall clobbers `rcx`). Compiled `-nostdlib -static`. | Exit code 42 confirmed via `echo $?` and `strace` showing raw syscall sequence. ✅ Complete |
  
-### Track 2 — Decompiled variants
+### Track 2 Decompiled variants
  
 9 sample variants decompiled in Ghidra 12.1.4. Complete.
  
@@ -135,19 +135,19 @@ Each model response is scored on 12 criteria, split evenly between recognition a
 | R2 | Attack technique named correctly | C2 | HOW the mechanism produces its effect |
 | R3 | Attack type classified (fault injection vs side-channel) | C3 | Threat model explained |
 | R4 | Security outcome mentioned | C4 | Physical mechanism explained (e.g. DRAM charge leakage, bit flips) |
-| R5 | YARA rule produced — syntactically valid | C5 | YARA targets semantic behaviour, not keywords |
+| R5 | YARA rule produced syntactically valid | C5 | YARA targets semantic behaviour, not keywords |
 | R6 | Confidence stated | C6 | Confidence calibrated against actual performance |
  
 Each criterion scored 0–3. Maximum per half: 18.
  
 ---
  
-## Primary Metric — RCDI
+## Primary Metric RCDI
  
 ```
 RCDI = R̄ − C̄
  
-R� = mean recognition score across all 6 R criteria
+R̄ = mean recognition score across all 6 R criteria
 C̄ = mean consequence score across all 6 C criteria
  
 Positive RCDI: model knows the label but not the physics
@@ -161,9 +161,9 @@ Range: -3 to +3
  
 | Metric | What it measures |
 |--------|-----------------|
-| nRCDI = RCDI ÷ R̄ | Normalised RCDI — consequence gap as proportion of recognition performance |
+| nRCDI = RCDI ÷ R̄ | Normalised RCDI consequence gap as proportion of recognition performance |
 | TSI (Transformation Sensitivity Index) | Mean RCDI increase per ladder step L0 → L1 → L2 |
-| Delta = B − A | Prompting lift — does the physics primer close the gap? |
+| Delta = B − A | Prompting lift does the physics primer close the gap? |
 | Brier Score | Confidence calibration (gated on S ≥ 60%) |
  
 ---
@@ -172,11 +172,11 @@ Range: -3 to +3
  
 | | Hypothesis | Status |
 |---|-----------|--------|
-| H1 | LLMs will show significantly positive RCDI on hardware-adjacent offensive code — recognition outpaces consequence | Under test |
-| H2 | Condition B (physics without attack name) will significantly reduce RCDI vs Condition A | Under test — formal January 2027 |
-| H3 | Condition B will reduce RCDI more than Condition C — physics is the operative factor, not the label | Under test — formal January 2027 |
-| H4 | DeepHat V1 will show no significant improvement over Qwen2.5-Coder — security fine-tuning does not improve consequence reasoning at the hardware boundary | Supported by preliminary finding F10 |
-| H5 | RCDI will not decrease to near zero at 13B parameters alone — the failure is not purely a capacity limitation | Under test — requires extended model runs |
+| H1 | LLMs will show significantly positive RCDI on hardware-adjacent offensive code recognition outpaces consequence | Under test |
+| H2 | Condition B (physics without attack name) will significantly reduce RCDI vs Condition A | Under test formal January 2027 |
+| H3 | Condition B will reduce RCDI more than Condition C physics is the operative factor, not the label | Under test formal January 2027 |
+| H4 | DeepHat V1 will show no significant improvement over Qwen2.5-Coder security fine-tuning does not improve consequence reasoning at the hardware boundary | Supported by preliminary finding F10 |
+| H5 | RCDI will not decrease to near zero at 13B parameters alone the failure is not purely a capacity limitation | Under test requires extended model runs |
  
 ---
  
@@ -250,10 +250,10 @@ All four primary models fit entirely on the lab machine GPU.
  
 Directional observations from 600 collected responses. **These are preliminary. Formal scoring takes place January 2027 using `score_helper.py` after OSF pre-registration of the rubric and hypotheses.**
  
-- **F9 — Comments are load-bearing:** Stripping all comments from FR-L0 causes every model to fail completely — not gradual degradation but categorical failure. Models read English labels in comments, not code structure and instruction semantics. Implication: AI security tools fail categorically on obfuscated or compiled code.
-- **F10 — General model outperforms security specialist:** LLaMA 3.1 8B (general, no security training) ~73% correct attack family classification. DeepHat V1 7B (security fine-tuned) ~60%. The security-specialist model performed worse at the hardware boundary. Directly challenges the assumption that security-domain fine-tuning improves performance on security tasks.
-- **F11 — CodeLlama token repetition loops:** On L2 (randomised identifiers), CodeLlama entered token repetition loops generating 7,329 characters without completing coherent analysis. Model-specific architectural instability under identifier obfuscation. Did not occur in any other model.
-- **F12 — Wrong-domain physics is worse than no context:** Applying rowhammer physics context to Flush+Reload samples caused systematic misclassification across all 10 runs in Qwen and LLaMA. Models that correctly classified FR-L0 under Condition A gave wrong answers under B_rowhammer. More context made performance worse. Direct implication for RAG pipeline design: wrong-domain context actively corrupts model reasoning.
+- **F9 : Comments are load-bearing:** Stripping all comments from FR-L0 causes every model to fail completely not gradual degradation but categorical failure. Models read English labels in comments, not code structure and instruction semantics. Implication: AI security tools fail categorically on obfuscated or compiled code.
+- **F10 : General model outperforms security specialist:** LLaMA 3.1 8B (general, no security training) ~73% correct attack family classification. DeepHat V1 7B (security fine-tuned) ~60%. The security-specialist model performed worse at the hardware boundary. Directly challenges the assumption that security-domain fine-tuning improves performance on security tasks.
+- **F11 : CodeLlama token repetition loops:** On L2 (randomised identifiers), CodeLlama entered token repetition loops generating 7,329 characters without completing coherent analysis. Model-specific architectural instability under identifier obfuscation. Did not occur in any other model.
+- **F12 : Wrong-domain physics is worse than no context:** Applying rowhammer physics context to Flush+Reload samples caused systematic misclassification across all 10 runs in Qwen and LLaMA. Models that correctly classified FR-L0 under Condition A gave wrong answers under B_rowhammer. More context made performance worse. Direct implication for RAG pipeline design: wrong-domain context actively corrupts model reasoning.
 ---
  
 ## Ethical Statement
@@ -266,12 +266,12 @@ All attack samples are self-authored and run in an isolated offline virtual mach
  
 1. **Domain:** No published benchmark evaluates LLM comprehension of kernel or hardware-adjacent offensive code. Every identified benchmark remains in userspace.
 2. **RCDI metric:** First formal quantification of the recognition/consequence split in LLM security code analysis. No published paper has measured their divergence at the hardware boundary.
-3. **Prompting experiment:** First test of whether hardware physics context injection (Condition B) reduces the recognition-consequence gap — and whether the physics or the label (Condition C) is the operative factor.
-4. **Controlled ablation:** Qwen2.5-Coder vs DeepHat V1 — identical architecture, one variable changed (security fine-tuning). Verified by `verify.py`.
+3. **Prompting experiment:** First test of whether hardware physics context injection (Condition B) reduces the recognition-consequence gap and whether the physics or the label (Condition C) is the operative factor.
+4. **Controlled ablation:** Qwen2.5-Coder vs DeepHat V1 identical architecture, one variable changed (security fine-tuning). Verified by `verify.py`.
 Five out of six arXiv searches returned zero results. No qualifying paper identified across ACM, IEEE, Google Scholar, or USENIX.
  
 ---
  
-*De Montfort University — BSc Cyber Security — CSEC3100 — 2026-27*  
+*De Montfort University | BSc Cyber Security CSEC3100 2026-27*  
 
  
